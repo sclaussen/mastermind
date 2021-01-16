@@ -50,20 +50,25 @@ function mastermind() {
 
             let guess = getGuess();
             let solution2 = [...solution];
+            let guess2 = guess;
 
             // Look for any correct color and position
             for (let i in guess) {
-                if (guess[i] === solution2[i]) {
+                if (guess2[i] === solution2[i]) {
                     correctPosition++;
                     solution2[i] = ' ';
-                    guess.replaceAt(i, ' ');
+                    guess2 = replace(guess2, i, ' ');
+                    // console.log(guess2 + " position " + i);
                 }
             }
 
             // Now look for just the correct color
-            for (let i in guess) {
+            for (let i in guess2) {
                 for (let j in solution2) {
-                    if (guess[i] === solution2[j]) {
+                    if (guess2[i] === ' ') {
+                        continue;
+                    }
+                    if (guess2[i] === solution2[j]) {
                         solution2[j] = ' ';
                         correctColor++;
                     }
@@ -81,7 +86,7 @@ function mastermind() {
             for (let g of guesses) {
                 let s = "(" + g.attempt + ") ";
                 s += getColors(g.guess);
-                s += "   " + g.position + " Positions    " + g.color + " Colors";
+                s += "   " + g.position + " POS    " + g.color + " COL";
                 console.log(s);
                 console.log();
             }
@@ -139,6 +144,11 @@ function getColors(guess) {
     }
 
     return s;
+}
+
+
+function replace(s, i, ch) {
+    return s.substr(0, i) + ch + s.substr(i + ch.length);
 }
 
 
